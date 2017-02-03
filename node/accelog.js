@@ -52,7 +52,7 @@ SensorTag.discover(function(tag) {
         tag.enableMagnetometer(notifyMe); // start the magnetometer listner
         tag.enableGyroscope(notifyMe); // start the magnetometer listner
 		// tag.enableIrTemperature(notifyMe); // start the IR temp sensor listner
-		console.log('Timestamp,X,Y,Z,MagX,MagY,MagZ,GyroX,GyroY,GyroZ');
+		console.log('Timestamp,AccelX,AccelY,AccelZ,MagX,MagY,MagZ,GyroX,GyroY,GyroZ');
 	}
 
 	//
@@ -154,7 +154,8 @@ SensorTag.discover(function(tag) {
 		var day = date.getDate();
 		day = (day < 10 ? "0" : "") + day;
 
-		return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec + ":" + ms;
+		// return year + "-" + month + "-" + day + "-" + hour + "-" + min + "-" + sec + "-" + ms;
+        return year + month + day + hour + min + sec + ms;
 
 	}
 
