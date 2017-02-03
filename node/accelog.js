@@ -38,7 +38,7 @@ SensorTag.discover(function(tag) {
 	// Connect and setup
 	//
 	function connectAndSetUpMe() { // attempt to connect to the tag
-		console.log('Connecting...');
+		// console.log('Connecting...');
 		tag.connectAndSetUp(enableSensors); // when you connect and device is setup, call enableAccelMe
 	}
 
@@ -46,7 +46,7 @@ SensorTag.discover(function(tag) {
 	// This function enables the accelerometer stream
 	//
 	function enableSensors() { // attempt to enable the accelerometer
-		console.log('Enable Sensors (Acc, Mag, Gyro)');
+		// console.log('Enable Sensors (Acc, Mag, Gyro)');
 		// when you enable the accelerometer, start accelerometer notifications:
 		tag.enableAccelerometer(notifyMe); // start the accelerometer listner
         tag.enableMagnetometer(notifyMe); // start the magnetometer listner
