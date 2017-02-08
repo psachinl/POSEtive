@@ -38,7 +38,7 @@ SensorTag.discover(function(tag) {
 	// Connect and setup
 	//
 	function connectAndSetUpMe() { // attempt to connect to the tag
-		console.log('Connecting...');
+		// console.log('Connecting...');
 		tag.connectAndSetUp(enableSensors); // when you connect and device is setup, call enableAccelMe
 	}
 
@@ -46,13 +46,13 @@ SensorTag.discover(function(tag) {
 	// This function enables the accelerometer stream
 	//
 	function enableSensors() { // attempt to enable the accelerometer
-		console.log('Enable Sensors (Acc, Mag, Gyro)');
+		// console.log('Enable Sensors (Acc, Mag, Gyro)');
 		// when you enable the accelerometer, start accelerometer notifications:
 		tag.enableAccelerometer(notifyMe); // start the accelerometer listner
         tag.enableMagnetometer(notifyMe); // start the magnetometer listner
         tag.enableGyroscope(notifyMe); // start the magnetometer listner
 		// tag.enableIrTemperature(notifyMe); // start the IR temp sensor listner
-		console.log('Timestamp,X,Y,Z,MagX,MagY,MagZ,GyroX,GyroY,GyroZ');
+		console.log('Timestamp,AccelX,AccelY,AccelZ,MagX,MagY,MagZ,GyroX,GyroY,GyroZ');
 	}
 
 	//
@@ -154,7 +154,8 @@ SensorTag.discover(function(tag) {
 		var day = date.getDate();
 		day = (day < 10 ? "0" : "") + day;
 
-		return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec + ":" + ms;
+		// return year + "-" + month + "-" + day + "-" + hour + "-" + min + "-" + sec + "-" + ms;
+        return year + month + day + hour + min + sec + ms;
 
 	}
 
