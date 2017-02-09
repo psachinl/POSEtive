@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "7A30BBE863E715F4F171B198FAE4698FAC7A9B06",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "B2D092F5FA78F5E112EF04DF86005E8A9E819F99" : 9223372036854775807,
+    "7A30BBE863E715F4F171B198FAE4698FAC7A9B06" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "E950A4C3-F02B-47CC-9343-53E50F4E43AE",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "B2D092F5FA78F5E112EF04DF86005E8A9E819F99" : "",
+    "7A30BBE863E715F4F171B198FAE4698FAC7A9B06" : "SwiftSensorTag\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "SwiftSensorTag",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "SwiftSensorTag.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/anasimtiaz\/SwiftSensorTag.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7A30BBE863E715F4F171B198FAE4698FAC7A9B06"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/psachinl\/POSEtive.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B2D092F5FA78F5E112EF04DF86005E8A9E819F99"
+    }
+  ]
+}
