@@ -12,27 +12,45 @@ import CoreBluetooth
 
 let deviceName = "CC2650 SensorTag"
 
+//// Service UUIDs
+//let IRTemperatureServiceUUID = CBUUID(string: "F000AA00-0451-4000-B000-000000000000")
+//let AccelerometerServiceUUID = CBUUID(string: "F000AA80-0451-4000-B000-000000000000")
+//let HumidityServiceUUID      = CBUUID(string: "F000AA20-0451-4000-B000-000000000000")
+//let MagnetometerServiceUUID  = CBUUID(string: "F000AA30-0451-4000-B000-000000000000")
+//let BarometerServiceUUID     = CBUUID(string: "F000AA40-0451-4000-B000-000000000000")
+//let GyroscopeServiceUUID     = CBUUID(string: "F000AA50-0451-4000-B000-000000000000")
+//
+//// Characteristic UUIDs
+//let IRTemperatureDataUUID   = CBUUID(string: "F000AA01-0451-4000-B000-000000000000")
+//let IRTemperatureConfigUUID = CBUUID(string: "F000AA02-0451-4000-B000-000000000000")
+//let AccelerometerDataUUID   = CBUUID(string: "F000AA81-0451-4000-B000-000000000000")
+//let AccelerometerConfigUUID = CBUUID(string: "F000AA82-0451-4000-B000-000000000000")
+//let HumidityDataUUID        = CBUUID(string: "F000AA21-0451-4000-B000-000000000000")
+//let HumidityConfigUUID      = CBUUID(string: "F000AA22-0451-4000-B000-000000000000")
+//let MagnetometerDataUUID    = CBUUID(string: "F000AA31-0451-4000-B000-000000000000")
+//let MagnetometerConfigUUID  = CBUUID(string: "F000AA32-0451-4000-B000-000000000000")
+//let BarometerDataUUID       = CBUUID(string: "F000AA41-0451-4000-B000-000000000000")
+//let BarometerConfigUUID     = CBUUID(string: "F000AA42-0451-4000-B000-000000000000")
+//let GyroscopeDataUUID       = CBUUID(string: "F000AA51-0451-4000-B000-000000000000")
+//let GyroscopeConfigUUID     = CBUUID(string: "F000AA52-0451-4000-B000-000000000000")
+
 // Service UUIDs
+
 let IRTemperatureServiceUUID = CBUUID(string: "F000AA00-0451-4000-B000-000000000000")
-let AccelerometerServiceUUID = CBUUID(string: "F000AA10-0451-4000-B000-000000000000")
+let MovementServiceUUID      = CBUUID(string: "F000AA80-0451-4000-B000-000000000000")
 let HumidityServiceUUID      = CBUUID(string: "F000AA20-0451-4000-B000-000000000000")
-let MagnetometerServiceUUID  = CBUUID(string: "F000AA30-0451-4000-B000-000000000000")
 let BarometerServiceUUID     = CBUUID(string: "F000AA40-0451-4000-B000-000000000000")
-let GyroscopeServiceUUID     = CBUUID(string: "F000AA50-0451-4000-B000-000000000000")
 
 // Characteristic UUIDs
+
 let IRTemperatureDataUUID   = CBUUID(string: "F000AA01-0451-4000-B000-000000000000")
 let IRTemperatureConfigUUID = CBUUID(string: "F000AA02-0451-4000-B000-000000000000")
-let AccelerometerDataUUID   = CBUUID(string: "F000AA11-0451-4000-B000-000000000000")
-let AccelerometerConfigUUID = CBUUID(string: "F000AA12-0451-4000-B000-000000000000")
+let MovementDataUUID        = CBUUID(string: "F000AA81-0451-4000-B000-000000000000")
+let MovementConfigUUID      = CBUUID(string: "F000AA82-0451-4000-B000-000000000000")
 let HumidityDataUUID        = CBUUID(string: "F000AA21-0451-4000-B000-000000000000")
 let HumidityConfigUUID      = CBUUID(string: "F000AA22-0451-4000-B000-000000000000")
-let MagnetometerDataUUID    = CBUUID(string: "F000AA31-0451-4000-B000-000000000000")
-let MagnetometerConfigUUID  = CBUUID(string: "F000AA32-0451-4000-B000-000000000000")
 let BarometerDataUUID       = CBUUID(string: "F000AA41-0451-4000-B000-000000000000")
 let BarometerConfigUUID     = CBUUID(string: "F000AA42-0451-4000-B000-000000000000")
-let GyroscopeDataUUID       = CBUUID(string: "F000AA51-0451-4000-B000-000000000000")
-let GyroscopeConfigUUID     = CBUUID(string: "F000AA52-0451-4000-B000-000000000000")
 
 
 
@@ -47,9 +65,9 @@ class SensorTag {
     
     // Check if the service has a valid UUID
     class func validService (_ service : CBService) -> Bool {
-        if service.uuid == IRTemperatureServiceUUID || service.uuid == AccelerometerServiceUUID ||
-            service.uuid == HumidityServiceUUID || service.uuid == MagnetometerServiceUUID ||
-            service.uuid == BarometerServiceUUID || service.uuid == GyroscopeServiceUUID {
+        if service.uuid == IRTemperatureServiceUUID || service.uuid == MovementServiceUUID ||
+            service.uuid == HumidityServiceUUID || service.uuid == MovementServiceUUID ||
+            service.uuid == BarometerServiceUUID || service.uuid == MovementServiceUUID {
                 return true
         }
         else {
@@ -60,9 +78,9 @@ class SensorTag {
     
     // Check if the characteristic has a valid data UUID
     class func validDataCharacteristic (_ characteristic : CBCharacteristic) -> Bool {
-        if characteristic.uuid == IRTemperatureDataUUID || characteristic.uuid == AccelerometerDataUUID ||
-            characteristic.uuid == HumidityDataUUID || characteristic.uuid == MagnetometerDataUUID ||
-            characteristic.uuid == BarometerDataUUID || characteristic.uuid == GyroscopeDataUUID {
+        if characteristic.uuid == IRTemperatureDataUUID || characteristic.uuid == MovementDataUUID ||
+            characteristic.uuid == HumidityDataUUID || characteristic.uuid == MovementDataUUID ||
+            characteristic.uuid == BarometerDataUUID || characteristic.uuid == MovementDataUUID {
                 return true
         }
         else {
@@ -73,9 +91,9 @@ class SensorTag {
     
     // Check if the characteristic has a valid config UUID
     class func validConfigCharacteristic (_ characteristic : CBCharacteristic) -> Bool {
-        if characteristic.uuid == IRTemperatureConfigUUID || characteristic.uuid == AccelerometerConfigUUID ||
-            characteristic.uuid == HumidityConfigUUID || characteristic.uuid == MagnetometerConfigUUID ||
-            characteristic.uuid == BarometerConfigUUID || characteristic.uuid == GyroscopeConfigUUID {
+        if characteristic.uuid == IRTemperatureConfigUUID || characteristic.uuid == MovementConfigUUID ||
+            characteristic.uuid == HumidityConfigUUID || characteristic.uuid == MovementConfigUUID ||
+            characteristic.uuid == BarometerConfigUUID || characteristic.uuid == MovementConfigUUID {
                 return true
         }
         else {
