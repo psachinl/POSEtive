@@ -58,7 +58,7 @@ function plotST(input_file)
 
         quaternion = zeros(1,4);
         
-        AHRS.Update(gyro(end,:) * (pi/180), accel(end,:), mag(end,:)./1000);	% gyroscope units must be radians
+        AHRS.Update(gyro(end,:) * (pi/180), accel(end,:), mag(end,:));	% gyroscope units must be radians
         quaternion(end, :) = AHRS.Quaternion;
 %         toc
 
@@ -70,7 +70,7 @@ function plotST(input_file)
         origin = [0 0 0];
         line = [origin;vect(end,:)];
         plot3(line(:,1),line(:,2),line(:,3))
-%         axis([-1 1 -1 1 -1 1])
+        axis(
         grid on
         pause(.0001)
         
