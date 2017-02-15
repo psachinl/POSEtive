@@ -1,12 +1,15 @@
 function plotST(input_file)
-    tic
     addpath('quaternion_library');
     figure
-%     while(1)
-    max_iter = 100;
-    iter = 0;
-%     while(iter < max_iter)
-    while(1)
+
+    t = 1;
+    origin = [0 0 0];
+
+    ref_vector_x = [1,0,0];
+    ref_vector_y = [0,1,0];
+    ref_vector_z = [0,0,1];
+    
+while(1)
         data = csvread(input_file,1);
         [timestamp,accel,gyro,mag]=splitData(data);
         clear data
@@ -62,20 +65,55 @@ function plotST(input_file)
         quaternion(end, :) = AHRS.Quaternion;
 %         toc
 
-        [yaw,pitch,roll] = quat2angle(quaternion);
-        x = cos(yaw).*cos(pitch);
-        y = sin(yaw).*cos(pitch);
-        z = sin(pitch);
-        vect=[x,y,z];
-        origin = [0 0 0];
-        line = [origin;vect(end,:)];
-        plot3(line(:,1),line(:,2),line(:,3))
-%         axis([-1 1 -1 1 -1 1])
-        grid on
-        pause(.0001)
+
+euler = quatern2euler(quaternConj(quaternion));	% use conjugate for sensor frame relative to Earth and convert to degrees.
+
+    Point1 = [cos(euler(end,1)), sin(euler(end,1)),0];
+
+    line_x = [origin;Point1)];
+    line_y = [origin;y_r(end,:)];
+    line_z = [origin;z_r(end,:)];
+
+    view(3)
+    hold on
+    plot3(line_x(:,1),line_x(:,2),line_x(:,3))
+    pause(.0001)
+    plot3(line_y(:,1),line_y(:,2),line_y(:,3))
+    pause(.0001)
+    plot3(line_z(:,1),line_z(:,2),line_z(:,3))
+    pause(.0001)
+    hold off
+    pause(1)
+    clf;
+
+
+% hold on;
+% plot(t, euler(:,1), 'r');
+% pause(.0001)
+% plot(t, euler(:,2), 'g');
+% pause(.0001)
+% plot(t, euler(:,3), 'b');
+% pause(.0001)
+% title('Euler angles');
+% xlabel('Time (s)');
+% ylabel('Angle (deg)');
+% legend('\phi', '\theta', '\psi');
+% hold off;
+
+
+%         x = cos(yaw).*cos(pitch);
+%         y = sin(yaw).*cos(pitch);
+%         z = sin(pitch);
+%         vect=[x,y,z];
+%         origin = [0 0 0];
+%         line = [origin;vect(end,:)];
+%         plot3(line(:,1),line(:,2),line(:,3))
+% %         axis([-1 1 -1 1 -1 1])
+%         grid on
+%         pause(.0001)
         
         % TODO: Plot line
-    
-    iter = iter + 1;
-    end
-toc
+    grid on;
+    t = t+1;
+end
+
