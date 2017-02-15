@@ -3,5 +3,5 @@
 output_file=$1
 matlab_file="'${output_file}'"
 
-sleep 5
+sleep 2
 matlab -nodesktop -nosplash -r "plotST2("${matlab_file}")"
