@@ -25,12 +25,9 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     // Sensor Values
     var allSensorLabels : [String] = []
     var allSensorValues : [Double] = []
-    var ambientTemperature : Double!
-    var objectTemperature : Double!
     var accelerometerX : Double!
     var accelerometerY : Double!
     var accelerometerZ : Double!
-    var relativeHumidity : Double!
     var magnetometerX : Double!
     var magnetometerY : Double!
     var magnetometerZ : Double!
@@ -47,7 +44,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         
         // Set up title label
         titleLabel = UILabel()
-        titleLabel.text = "Sensor Tag"
+        titleLabel.text = "SensorTag 2 data"
         titleLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
         titleLabel.sizeToFit()
         titleLabel.center = CGPoint(x: self.view.frame.midX, y: self.titleLabel.bounds.midY+28)
@@ -101,10 +98,9 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         
         if SensorTag.sensorTagFound(advertisementData) == true {
-//        if (String(describing: advertisementData["kCBAAdvDataLocalName"]) == "Optional(CC2650 SensorTag)" ){
         
             // Update Status Label
-            self.statusLabel.text = "Sensor Tag Found"
+            self.statusLabel.text = "SensorTag 2 Found"
             
             // Stop scanning, set as the peripheral to use and establish connection
             self.centralManager.stopScan()
@@ -113,9 +109,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             self.centralManager.connect(peripheral, options: nil)
         }
         else {
-            self.statusLabel.text = "Sensor Tag NOT Found"
-//            self.statusLabel.text = String(describing: type(of: advertisementData))
-//            self.statusLabel.text = String(describing: advertisementData["kCBAdvDataLocalName"])
+            self.statusLabel.text = "SensorTag 2 NOT Found"
             //showAlertWithText(header: "Warning", message: "SensorTag Not Found")
         }
     }
@@ -125,8 +119,6 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         self.statusLabel.text = "Discovering peripheral services"
         peripheral.delegate=self
         peripheral.discoverServices(nil)
-//        peripheral.discoverServices([CBUUID(string: "F000AA10-0451-4000-B000-000000000000"),CBUUID(string: "F000AA00-0451-4000-B000-000000000000")])
-//        print("Discovering peripheral services")
     }
     
     
@@ -139,25 +131,20 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     /******* CBCentralPeripheralDelegate *******/
      
      // Check if the service discovered is valid i.e. one of the following:
-     // IR Temperature Service
-     // Accelerometer Service
-     // Humidity Service
-     // Magnetometer Service
-     // Barometer Service
-     // Gyroscope Service
-     // (Others are not implemented)
+     // Movement service
+    
+    
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         self.statusLabel.text = "Looking at peripheral services"
-        for service in peripheral.services! { // WHERE DOES peripheral.services COME FROM????
-//            print(service)
+        for service in peripheral.services! {
             let thisService = service as CBService
             if SensorTag.validService(thisService) {
                 // Discover characteristics of all valid services
-//                print(thisService)
                 peripheral.discoverCharacteristics(nil, for: thisService)
             }
         }
     }
+    
     
     
     // Enable notification and sensor for each characteristic of valid service
@@ -165,30 +152,22 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         
         self.statusLabel.text = "Enabling sensors"
         
-        var enableValue = 1
-//        let enablyBytes = Data(bytes: UnsafePointer<UInt8>(&enableValue), count: sizeof(UInt8))
-        
+        let input = 127
+        var enableValue = input
         
         let enablyBytes = withUnsafePointer(to: &enableValue){
-            return Data(bytes: $0, count: MemoryLayout<UInt8>.size)
-//            return Data(bytes: $0, count: 1)
+            return Data(bytes: $0, count: MemoryLayout<UInt16>.size)
         }
         
-        
         for charateristic in service.characteristics! {
-//            print(charateristic)
             let thisCharacteristic = charateristic as CBCharacteristic
             if SensorTag.validDataCharacteristic(thisCharacteristic) {
                 // Enable Sensor Notification
                 self.sensorTagPeripheral.setNotifyValue(true, for: thisCharacteristic)
-//                self.statusLabel.text = "Harambe"
-                
             }
             if SensorTag.validConfigCharacteristic(thisCharacteristic) {
                 // Enable Sensor
                 self.sensorTagPeripheral.writeValue(enablyBytes, for: thisCharacteristic, type: CBCharacteristicWriteType.withResponse)
-//                print(charateristic)
-//                self.statusLabel.text = "Jesus" + String(describing: thisCharacteristic)
             }
         }
         
@@ -200,55 +179,35 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         
         self.statusLabel.text = "Connected"
-//        self.statusLabel.text = String(describing: characteristic.uuid)
-        print(characteristic.uuid)
         
-        if characteristic.uuid == IRTemperatureDataUUID {
-            self.ambientTemperature = SensorTag.getAmbientTemperature(characteristic.value!)
-            self.objectTemperature = SensorTag.getObjectTemperature(characteristic.value!, ambientTemperature: self.ambientTemperature)
-            self.allSensorValues[0] = self.ambientTemperature
-            self.allSensorValues[1] = self.objectTemperature
-        }
-        else if characteristic.uuid == MovementDataUUID {
-            let allValues = SensorTag.getAccelerometerData(characteristic.value!)
-            self.accelerometerX = allValues[0]
-            self.accelerometerY = allValues[1]
-            self.accelerometerZ = allValues[2]
-            print(allValues[1])
-            self.allSensorValues[2] = self.accelerometerX
-            self.allSensorValues[3] = self.accelerometerY
-            self.allSensorValues[4] = self.accelerometerZ
-        }
-        else if characteristic.uuid == HumidityDataUUID {
-            self.relativeHumidity = SensorTag.getRelativeHumidity(characteristic.value!)
-            self.allSensorValues[5] = self.relativeHumidity
-        }
-//        else if characteristic.uuid == MagnetometerDataUUID {
-//            let allValues = SensorTag.getMagnetometerData(characteristic.value!)
-//            self.magnetometerX = allValues[0]
-//            self.magnetometerY = allValues[1]
-//            self.magnetometerZ = allValues[2]
-//            self.allSensorValues[6] = self.magnetometerX
-//            self.allSensorValues[7] = self.magnetometerY
-//            self.allSensorValues[8] = self.magnetometerZ
-//        }
-//        else if characteristic.uuid == GyroscopeDataUUID {
-//            let allValues = SensorTag.getGyroscopeData(characteristic.value!)
-//            self.gyroscopeX = allValues[0]
-//            self.gyroscopeY = allValues[1]
-//            self.gyroscopeZ = allValues[2]
-//            self.allSensorValues[9] = self.gyroscopeX
-//            self.allSensorValues[10] = self.gyroscopeY
-//            self.allSensorValues[11] = self.gyroscopeZ
-//        }
-        else if characteristic.uuid == BarometerDataUUID {
-            //println("BarometerDataUUID")
+        if characteristic.uuid == MovementDataUUID {
+            let allValues = SensorTag.getMovementData(characteristic.value!)
+            
+            self.gyroscopeX = allValues[0]
+            self.gyroscopeY = allValues[1]
+            self.gyroscopeZ = allValues[2]
+            
+            self.accelerometerX = allValues[3]
+            self.accelerometerY = allValues[4]
+            self.accelerometerZ = allValues[5]
+            
+            self.magnetometerX = allValues[6]
+            self.magnetometerY = allValues[7]
+            self.magnetometerZ = allValues[8]
+            
+            self.allSensorValues[0] = self.accelerometerX
+            self.allSensorValues[1] = self.accelerometerY
+            self.allSensorValues[2] = self.accelerometerZ
+            self.allSensorValues[3] = self.magnetometerX
+            self.allSensorValues[4] = self.magnetometerY
+            self.allSensorValues[5] = self.magnetometerZ
+            self.allSensorValues[6] = self.gyroscopeX
+            self.allSensorValues[7] = self.gyroscopeY
+            self.allSensorValues[8] = self.gyroscopeZ
         }
         
         self.sensorTagTableView.reloadData()
     }
-    
-    
     
     
     
