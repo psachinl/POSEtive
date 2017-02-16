@@ -15,13 +15,23 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let str = "Hello, playground"
-        //
-        
         
         // prepare json data
-        let json: [String: Any] = ["title": "Harambe",
-                                   "dict": ["1":"First", "2":"Second"]]
+        let json: [String: Any] = ["accelX": "-1",
+                                   "accelY": "0",
+                                   "accelZ": "0",
+                                   "gyroX" : "0.5",
+                                   "gyroY" : "-2.7",
+                                   "gyroZ" : "-3.2",
+                                   "magX"  : "-22.5",
+                                   "magY"  : "-21.9",
+                                   "magZ"  : "38.2",
+                                   "units" :[
+                                        "accel" : "g",
+                                        "gyro"  : "deg/s",
+                                        "mag"   : "uT"
+            ]
+        ]
         
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
@@ -33,6 +43,7 @@ class ViewController: UIViewController {
         // insert json data to the request
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         request.httpBody = jsonData
         
@@ -45,12 +56,35 @@ class ViewController: UIViewController {
             if let responseJSON = responseJSON as? [String: Any] {
                 print(responseJSON)
             }
+
+        }
+        task.resume()
+        
+        // Read JSON from HTTP server
+        
+        let read_url = URL(string: "https://httpbin.org/get?show_env=1")
+//        let read_url = URL(string: "https://putsreq.com/3460J109NNrmz6ma3Zox")
+        
+        let task2 = URLSession.shared.dataTask(with: read_url!) { data, response, error in
+            guard error == nil else {
+                print(error as Any)
+                return
+            }
+            guard let data = data else {
+                print("Data is empty")
+                return
+            }
+            
+            print("Printing JSON as dictionary:")
+            let json = try! JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+            if let j = json{
+                print(j)
+            }
+            
         }
         
-        print(str)
         
-        
-        task.resume()
+        task2.resume()
         
 
     }
@@ -60,9 +94,4 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
-    
-    //: Playground - noun: a place where people can play
-    
 }
-
