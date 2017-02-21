@@ -86,17 +86,18 @@ origin = [0 0 0];
 % unreliable when the middle angles of the sequence (theta) approaches ±90
 % degrees. This problem commonly referred to as Gimbal Lock.
 % See: http://en.wikipedia.org/wiki/Gimbal_lock
-c% euler =cquatern2euler(quaternConj(quaternion)) * (180/pi);	% use conjugate for sensor frame relative to Earth and convert to degrees.
+
+euler =quatern2euler(quaternConj(quaternion)) * (180/pi);	% use conjugate for sensor frame relative to Earth and convert to degrees.
 % 
-% figure('Name', 'Euler Angles');
-% hold on;
-% plot(time, euler(:,1), 'r');
-% plot(time, euler(:,2), 'g');
-% plot(time, euler(:,3), 'b');
-% title('Euler angles');
-% xlabel('Time (s)');
-% ylabel('Angle (deg)');
-% legend('\phi', '\theta', '\psi');
-% hold off;
+figure('Name', 'Euler Angles');
+hold on;
+plot(time, euler(:,1), 'r');
+plot(time, euler(:,2), 'g');
+plot(time, euler(:,3), 'b');
+title('Euler angles');
+xlabel('Time (s)');
+ylabel('Angle (deg)');
+legend('\phi', '\theta', '\psi');
+hold off;
 
 %% End of script

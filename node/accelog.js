@@ -48,9 +48,10 @@ SensorTag.discover(function(tag) {
 	function enableSensors() { // attempt to enable the accelerometer
 		// console.log('Enable Sensors (Acc, Mag, Gyro)');
 		// when you enable the accelerometer, start accelerometer notifications:
-		tag.enableAccelerometer(notifyMe); // start the accelerometer listner
+		    tag.enableAccelerometer(notifyMe); // start the accelerometer listner
         tag.enableMagnetometer(notifyMe); // start the magnetometer listner
         tag.enableGyroscope(notifyMe); // start the magnetometer listner
+				tag.setAccelerometerPeriod(100);
 		// tag.enableIrTemperature(notifyMe); // start the IR temp sensor listner
 		console.log('Timestamp,AccelX,AccelY,AccelZ,MagX,MagY,MagZ,GyroX,GyroY,GyroZ');
 	}
@@ -70,7 +71,7 @@ SensorTag.discover(function(tag) {
 	// When you get an accelermeter change, print it out:
 	//
 	function notificationManager() {
-		var magX = 0;
+			  var magX = 0;
         var magY = 0;
         var magZ = 0;
         var gyroX = 0;
@@ -86,18 +87,26 @@ SensorTag.discover(function(tag) {
             magX = x.toFixed(1);
             magY = y.toFixed(1);
             magZ = z.toFixed(1);
+						// console.log('%s,%d,%d,%d,%d,%d,%d,%d,%d,%d', getDateTime(), accelX, accelY, accelZ, magX, magY, magZ, gyroX, gyroY, gyroZ);
+						// console.log("Mag");
         });
 
         tag.on('gyroscopeChange', function(x, y, z){
             gyroX = x.toFixed(1);
             gyroY = y.toFixed(1);
             gyroZ = z.toFixed(1);
+						// console.log("gyro");
+						// console.log('%s,%d,%d,%d,%d,%d,%d,%d,%d,%d', getDateTime(), accelX, accelY, accelZ, magX, magY, magZ, gyroX, gyroY, gyroZ);
+
         });
 
-		tag.on('accelerometerChange', function(x, y, z) {
+				tag.on('accelerometerChange', function(x, y, z) {
+						accelX = x.toFixed(1);
+						accelY = y.toFixed(1);
+						accelZ = z.toFixed(1);
 			// console.log('%s,%d,%d,%d,%d,%d', getDateTime(), x.toFixed(1), y.toFixed(1), z.toFixed(1), ot, at);
-            console.log('%s,%d,%d,%d,%d,%d,%d,%d,%d,%d', getDateTime(), x.toFixed(1), y.toFixed(1), z.toFixed(1), magX, magY, magZ, gyroX, gyroY, gyroZ);
-		});
+						console.log('%s,%d,%d,%d,%d,%d,%d,%d,%d,%d', getDateTime(), accelX, accelY, accelZ, magX, magY, magZ, gyroX, gyroY, gyroZ);
+					});
 	}
 
 	//

@@ -1,4 +1,4 @@
-function [timestamp,accel,gyro,mag] = splitData(data)
+function [timestamp,accel,mag,gyro] = splitData(data)
 
 timestamp = data(:,1);
 accel_x = data(:,2);
