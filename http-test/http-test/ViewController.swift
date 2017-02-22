@@ -8,19 +8,31 @@
 
 import UIKit
 import Alamofire
+import UserNotifications
 
 class ViewController: UIViewController {
     
     let route = "/people/" // Route to db
     let id = "b173a74c-2708-4e73-987d-5357371c5162" // ID of user in db
+    
+    var isGrantedNotificationAccess:Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
         // Clear web cache
         URLCache.shared.removeAllCachedResponses()
         URLCache.shared.diskCapacity = 0
         URLCache.shared.memoryCapacity = 0
+        
+        // Check notification permissions
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: [.alert,.sound,.badge],
+            completionHandler: { (granted,error) in
+                self.isGrantedNotificationAccess = granted
+            }
+        )
     }
 
     override func didReceiveMemoryWarning() {
@@ -75,7 +87,7 @@ class ViewController: UIViewController {
     @IBAction func btn(_ sender: UIButton){
         
         // ngrok URL needs to be changed each time ngrok is restarted
-        let get_path = "https://eda14b7e.ngrok.io" + route + id
+        let get_path = "https://b4cd8820.ngrok.io" + route + id
         
         // HTTP GET from server
 //        Alamofire.request("https://httpbin.org/ip").responseJSON { response in
@@ -103,18 +115,24 @@ class ViewController: UIViewController {
 //            }
 //        }
         
-//        // Read posture result from server
-//        Alamofire.request(get_path).responseJSON { response in debugPrint(response)
-//            
-//            if let json = response.result.value {
-//                print("JSON: \(json)")
-//                // Convert JSON to dictionary
-//                let pos_dict = json as? [String: Any]
-//                print(pos_dict?["posture"] as! String)
-//                self.posture_label.text = pos_dict?["posture"] as? String
-//                self.posture_label.sizeToFit()
-//            }
-//        }
+        // Read posture result from server
+        Alamofire.request(get_path).responseJSON { response in debugPrint(response)
+            
+            if let json = response.result.value {
+                print("JSON: \(json)")
+                // Convert JSON to dictionary
+                let pos_dict = json as? [String: Any]
+                let pos_clas = pos_dict?["posture"] as? String
+                print(pos_dict?["posture"] as! String)
+                self.posture_label.text = pos_dict?["posture"] as? String
+                self.posture_label.sizeToFit()
+                
+                if pos_clas == "Bad"{
+                // Trigger intervention to correct posture
+                self.trigger_intervention_notif()
+                }
+            }
+        }
         
         // Read posture result from server
         Alamofire.request(get_path).responseJSON { response in debugPrint(response)
@@ -126,16 +144,47 @@ class ViewController: UIViewController {
                 
                 if pos_clas == "Bad"{
                     // Trigger intervention to correct posture
+                    self.trigger_intervention_notif()
                 }
             }
         }
     }
     
     @IBAction func trigger_notif(_ sender: UIButton) {
-        let nc = NotificationCenter.default
-        nc.post(name:Notification.Name(rawValue:"MyNotification"),
-                object: nil,
-                userInfo: ["message":"Hello there!", "date":Date()])
+        
+        if isGrantedNotificationAccess{
+            self.trigger_intervention_notif()
+        }
+    }
+    
+    func trigger_intervention_notif() {
+        if isGrantedNotificationAccess{
+            print("Triggering notification")
+            
+            // Set notification content
+            let content = UNMutableNotificationContent()
+            content.title = "POSEtive has detected slouching"
+            content.subtitle = "Please sit up straight"
+            content.body = "Return to your good posture position"
+            content.categoryIdentifier = "message"
+            
+            // Set notification trigger
+            let trigger = UNTimeIntervalNotificationTrigger(
+                timeInterval: 10.0,
+                repeats: false)
+            
+            // Set notification request
+            let request = UNNotificationRequest(
+                identifier: "POSEtive.bad.posture",
+                content: content,
+                trigger: trigger
+            )
+            
+            // Add notification to notification center
+            UNUserNotificationCenter.current().add(
+                request, withCompletionHandler: nil)
+        }
+
     }
     
     
