@@ -9,8 +9,8 @@ var classif = process.argv[2]; // First arg is [2] in array
 classif_dict = file.people;
 // console.log(classif_dict);
 
+// TODO: Move to function
 var index = 0;
-
 for (var i = 0; i < classif_dict.length; i++) {
     if (classif_dict[i].id == id) {
         index = i;
@@ -19,6 +19,8 @@ for (var i = 0; i < classif_dict.length; i++) {
 
 // console.log(classif_dict[index].posture);
 
+// TODO: Maybe add if statement to only update JSON if new
+// classification is different - might save some IO time
 classif_dict[index].posture = classif;
 file.people = classif_dict;
 

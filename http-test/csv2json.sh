@@ -10,6 +10,7 @@ do
     if [[ "${x}" -gt "${data_file_size}" ]]; then
         data_file_size="${x}"
         # If the file size has increased, update the json
+        printf "Updating classification \n"
         ./insert2json.sh "${data_file}"
     fi
 done
