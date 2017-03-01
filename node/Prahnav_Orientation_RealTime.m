@@ -38,7 +38,7 @@ while(1)
     [~,idx]=unique(data,'rows','first');out=data(idx,:);
     
     % Split Data
-    [time,acc,mag,gyr]=splitData(data);      
+    [time,acc,mag,gyr]=splitData(out);      
     input_net = [acc(end,:), gyr(end,:)]';
     clear csv_data
     
@@ -81,7 +81,7 @@ while(1)
     view(3); grid on; axis([-1,1,-1,1,-1,1]); pause(0.0001);
    plot3(X(:,1),X(:,2),X(:,3),Y(:,1),Y(:,2),Y(:,3),Z(:,1),Z(:,2),Z(:,3));
 %     plot3(V(:,1),V(:,2),V(:,3));
-    net_output = networkThird(input_net)
+    net_output = networkThird(input_net);
     if net_output < net_threshold
        text_string = 'Good';
     else
@@ -89,6 +89,13 @@ while(1)
     end
     str=sprintf('User Posture = %s', text_string);
     title(str);
+    
+    time = string(datestr(now,'dd mmm yyyy, HH:MM:SS '));
+    text_string = strcat(time,',',text_string,'\n');
+    
+    fid = fopen('outData.txt','a');
+    fprintf(fid, text_string);
+    fclose(fid);
 
 end
 %% End of script
