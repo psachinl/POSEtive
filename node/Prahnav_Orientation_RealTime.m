@@ -5,7 +5,6 @@ addpath('quaternion_library');	    % include quatenrion library
 load neural_network.mat
 %-------------------------------------------------------------------------%
 % Variable Initializations
-tic;
 
 %Sample Period
 samplePeriod = 1/53;                
@@ -26,6 +25,8 @@ ahrs = MahonyAHRS('SamplePeriod', samplePeriod, 'Kp', 1);
 % Neural Net Threshold
 net_threshold = 1.5;
 
+pause_length = 2;
+bad_count = 0;
 %-------------------------------------------------------------------------%
 % Real Time Implementation
 
@@ -84,10 +85,23 @@ while(1)
 %     plot3(V(:,1),V(:,2),V(:,3));
     net_output = networkThird(input_net);
     if net_output < net_threshold
-       text_string = 'Good';
+%        text_string = 'Good';
+       bad_count = 0;
     else
-       text_string = 'Bad';
+%        text_string = 'Bad';
+       bad_count = bad_count + 1;
     end
+    
+    
+    if bad_count == 3
+        text_string = 'Bad';
+        bad_count = bad_count - 1;
+    elseif bad_count > 0
+        text_string = 'Pending';
+    else
+        text_string = 'Good';
+    end
+    
     str=sprintf('User Posture = %s', text_string);
     title(str);
     
@@ -97,7 +111,7 @@ while(1)
     fid = fopen('outData.txt','a');
     fprintf(fid, text_string);
     fclose(fid);
-toc;
+    pause(pause_length);
 end
 %% End of script
 
