@@ -5,6 +5,7 @@ addpath('quaternion_library');	    % include quatenrion library
 load neural_network.mat
 %-------------------------------------------------------------------------%
 % Variable Initializations
+tic;
 
 %Sample Period
 samplePeriod = 1/53;                
@@ -96,7 +97,7 @@ while(1)
     fid = fopen('outData.txt','a');
     fprintf(fid, text_string);
     fclose(fid);
-
+toc;
 end
 %% End of script
 
