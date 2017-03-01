@@ -90,7 +90,7 @@ while(1)
     str=sprintf('User Posture = %s', text_string);
     title(str);
     
-    time = string(datestr(now,'dd mmm yyyy, HH:MM:SS '));
+    time = string(datestr(now,'dd mmm yyyy, HH:MM:SS'));
     text_string = strcat(time,',',text_string,'\n');
     
     fid = fopen('outData.txt','a');
