@@ -22,6 +22,7 @@
 		1902C18B1E6F33610026F9F0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1902C18E1E6F33610026F9F0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1902C1901E6F33610026F9F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1940F52A1E6F429A0026A655 /* push-test.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "push-test.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +55,7 @@
 		1902C1831E6F33610026F9F0 /* push-test */ = {
 			isa = PBXGroup;
 			children = (
+				1940F52A1E6F429A0026A655 /* push-test.entitlements */,
 				1902C1841E6F33610026F9F0 /* AppDelegate.swift */,
 				1902C1861E6F33610026F9F0 /* ViewController.swift */,
 				1902C1881E6F33610026F9F0 /* Main.storyboard */,
@@ -98,6 +100,14 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = S94A7MVV22;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -261,6 +271,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "push-test/push-test.entitlements";
 				DEVELOPMENT_TEAM = S94A7MVV22;
 				INFOPLIST_FILE = "push-test/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -274,6 +285,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "push-test/push-test.entitlements";
 				DEVELOPMENT_TEAM = S94A7MVV22;
 				INFOPLIST_FILE = "push-test/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -302,6 +314,7 @@
 				1902C1951E6F33610026F9F0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
