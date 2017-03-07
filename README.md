@@ -6,13 +6,14 @@ Mobile Healthcare & Machine Learning coursework
 
 Instructions
 -------------------
-1. 'cd combined'
-2. 'json-server --watch test.json' to start the web server on localhost:3000
-3. './csv2json.sh' script to update JSON when required
-4. './classification.sh' launches MATLAB processing
+1. `cd combined`
+2. `json-server --watch test.json` to start the web server on localhost:3000
+3. `./csv2json.sh` script to update JSON when required
+4. `./classification.sh` launches MATLAB processing
 
 **Optional**
-5. 'ngrok http 3000' provides a public URL for the web server
+
+5. `ngrok http 3000` provides a public URL for the web server
 
 Useful Links
 -------------------
