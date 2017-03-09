@@ -61,6 +61,7 @@ if (classif_dict[index].posture != classif) {
 
         service.send(note, deviceToken).then( result => {
             console.log(result); // For testing purposes only
+            process.exit()
         });
 
         service.shutdown(); // Doesn't seem to do anything...
