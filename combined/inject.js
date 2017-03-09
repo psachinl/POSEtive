@@ -29,6 +29,41 @@ if (classif_dict[index].posture != classif) {
       // console.log(JSON.stringify(file));
       // console.log('writing to ' + fileName);
     });
+
+    // If bad posture, trigger a push notification via APNs
+    if (classif == "Bad") {
+        var apn = require('apn');
+
+        // DO NOT CHANGE
+        var options = {
+          token: {
+            key: "APNsAuthKey_Z4NFFBB53R.p8",
+            keyId: "Z4NFFBB53R",
+            teamId: "K2URTEF7W2"
+          },
+          production: false
+        };
+
+        var service = new apn.Provider(options);
+        let deviceToken = "4e1cfe287fcfef733fc40c6f4e8f7b4231d660de987f7318aab794329b611a94" // Prahnav's iPhone
+
+        let note = new apn.Notification();
+
+        note.expiry = Math.floor(Date.now() / 1000) + 15; // Expires 15 seconds from now.
+        // note.expiry = 0; // Expires now.
+        note.badge = 3;
+        note.sound = "ping.aiff";
+        note.alert = "POSEtive has detected slouching - Please sit up";
+        note.payload = {'messageFrom': 'POSEtive'}; // TODO: Set notification text
+        note.topic = "com.psl.push.test";
+        // note.id = "POSEtive.slouching"
+        // note.priority = 10;
+
+        service.send(note, deviceToken).then( result => {
+            console.log(result); // For testing purposes only
+        });
+
+        service.shutdown(); // Doesn't seem to do anything...
 }
 
 // var data_point = {"01 Mar 2017, 11:31:52": "Good"};
@@ -37,38 +72,38 @@ if (classif_dict[index].posture != classif) {
 // file[id] = classif_dict;
 //
 
-// If bad posture, trigger a push notification via APNs
-if (classif == "Bad") {
-    var apn = require('apn');
-
-    // DO NOT CHANGE
-    var options = {
-      token: {
-        key: "APNsAuthKey_Z4NFFBB53R.p8",
-        keyId: "Z4NFFBB53R",
-        teamId: "K2URTEF7W2"
-      },
-      production: false
-    };
-
-    var service = new apn.Provider(options);
-    let deviceToken = "4e1cfe287fcfef733fc40c6f4e8f7b4231d660de987f7318aab794329b611a94" // Prahnav's iPhone
-
-    let note = new apn.Notification();
-
-    note.expiry = Math.floor(Date.now() / 1000) + 15; // Expires 15 seconds from now.
-    // note.expiry = 0; // Expires now.
-    note.badge = 3;
-    note.sound = "ping.aiff";
-    note.alert = "POSEtive has detected slouching - Please sit up";
-    note.payload = {'messageFrom': 'POSEtive'}; // TODO: Set notification text
-    note.topic = "com.psl.push.test";
-    // note.id = "POSEtive.slouching"
-    // note.priority = 10;
-
-    service.send(note, deviceToken).then( result => {
-        console.log(result); // For testing purposes only
-    });
-
-    service.shutdown(); // Doesn't seem to do anything...
+// // If bad posture, trigger a push notification via APNs
+// if (classif == "Bad") {
+//     var apn = require('apn');
+//
+//     // DO NOT CHANGE
+//     var options = {
+//       token: {
+//         key: "APNsAuthKey_Z4NFFBB53R.p8",
+//         keyId: "Z4NFFBB53R",
+//         teamId: "K2URTEF7W2"
+//       },
+//       production: false
+//     };
+//
+//     var service = new apn.Provider(options);
+//     let deviceToken = "4e1cfe287fcfef733fc40c6f4e8f7b4231d660de987f7318aab794329b611a94" // Prahnav's iPhone
+//
+//     let note = new apn.Notification();
+//
+//     note.expiry = Math.floor(Date.now() / 1000) + 15; // Expires 15 seconds from now.
+//     // note.expiry = 0; // Expires now.
+//     note.badge = 3;
+//     note.sound = "ping.aiff";
+//     note.alert = "POSEtive has detected slouching - Please sit up";
+//     note.payload = {'messageFrom': 'POSEtive'}; // TODO: Set notification text
+//     note.topic = "com.psl.push.test";
+//     // note.id = "POSEtive.slouching"
+//     // note.priority = 10;
+//
+//     service.send(note, deviceToken).then( result => {
+//         console.log(result); // For testing purposes only
+//     });
+//
+//     service.shutdown(); // Doesn't seem to do anything...
 }
