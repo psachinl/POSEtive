@@ -34,7 +34,7 @@ if (classif_dict[index].posture != classif) {
     if (classif == "Bad") {
         var moment = require('moment');
 
-        notif_delay = 60000; // 60 seconds in ms
+        notif_delay = 10000; // 10 seconds in ms
 
         if (moment().valueOf() - classif_dict[index].last_notif_time > notif_delay) {
             var apn = require('apn');

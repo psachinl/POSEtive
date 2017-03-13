@@ -1,4 +1,4 @@
-function realtimeOrientation(input_file)
+function realtimeOrientationSilent(input_file)
 
 addpath('ximu_matlab_library');	
 addpath('quaternion_library');	    
@@ -28,8 +28,10 @@ bad_count = 0;
 
 %fig1 = figure
 
+output_file = 'outDataSilent.txt';
+
 % Overwrite txt file
-fid = fopen('outData.txt','w');
+fid = fopen(output_file,'w');
 fprintf(fid,'Date, Time, Classification\n');
 time = string(datestr(now,'dd mmm yyyy, HH:MM:SS'));
 old_text_string = strcat(time,',','Initialising','\n');
@@ -109,11 +111,11 @@ while(1)
     time = string(datestr(now,'dd mmm yyyy, HH:MM:SS'));
     text_string = strcat(time,',',classif_string,'\n');
 
-    if ~strcmp(old_classif,classif_string)
-        fid = fopen('outData.txt','a');
+%     if ~strcmp(old_classif,classif_string)
+        fid = fopen(output_file,'a');
         fprintf(fid, text_string);
         fclose(fid);
         old_classif = classif_string;
-    end
+%     end
  end
 
