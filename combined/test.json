@@ -2,11 +2,13 @@
   "people": [
     {
       "id": "b173a74c-2708-4e73-987d-5357371c5162",
-      "posture": "Bad"
+      "posture": "Bad",
+      "last_notif_time": 1489407628283
     },
     {
       "id": "40f78afa-dc3f-44d8-8956-9235dc80dd8c",
-      "posture": "Good"
+      "posture": "Good",
+      "last_notif_time": 1489407337307
     }
   ],
   "historical": [
