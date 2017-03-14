@@ -7,17 +7,13 @@ var id = 'b173a74c-2708-4e73-987d-5357371c5162'
 var classif = process.argv[2]; // First arg is [2] in array
 
 classif_dict = file.people;
-// console.log(classif_dict);
 
-// TODO: Move to function
 var index = 0;
 for (var i = 0; i < classif_dict.length; i++) {
     if (classif_dict[i].id == id) {
         index = i;
     }
 }
-
-// console.log(classif_dict[index].posture);
 
 // Only writes if new classification is different to current classification
 if (classif_dict[index].posture != classif) {
@@ -26,8 +22,6 @@ if (classif_dict[index].posture != classif) {
 
     fs.writeFile(fileName, JSON.stringify(file, null, 2), function (err) {
       if (err) return console.log(err);
-      // console.log(JSON.stringify(file));
-      // console.log('writing to ' + fileName);
     });
 
     // If bad posture, trigger a push notification via APNs
@@ -44,17 +38,11 @@ if (classif_dict[index].posture != classif) {
 
             fs.writeFile(fileName, JSON.stringify(file, null, 2), function (err) {
               if (err) return console.log(err);
-              // console.log(JSON.stringify(file));
-              // console.log('writing to ' + fileName);
             });
-
-            // console.log(classif_dict);
 
             // DO NOT CHANGE
             var options = {
               token: {
-                // key: "APNsAuthKey_Z4NFFBB53R.p8",
-                // keyId: "Z4NFFBB53R",
                 key: "APNsAuthKey_D4MGUB267P.p8",
                 keyId: "D4MGUB267P",
                 teamId: "K2URTEF7W2"
@@ -78,7 +66,7 @@ if (classif_dict[index].posture != classif) {
                 process.exit()
             });
 
-            service.shutdown(); // Doesn't seem to do anything...
+            service.shutdown();
         }
     }
 }
