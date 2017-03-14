@@ -68,8 +68,6 @@ if (classif_dict[index].posture != classif) {
             let note = new apn.Notification();
 
             note.expiry = Math.floor(Date.now() / 1000) + 15; // Expires 15 seconds from now.
-            // note.expiry = 0; // Expires now.
-            note.badge = 0;
             note.sound = "ping.aiff";
             note.title = "POSEtive has detected slouching";
             note.body = "Please sit up";
