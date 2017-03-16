@@ -73,9 +73,9 @@ while(1)
     E = rotm2eul(R);
 %    dlmwrite ('Adam_back.csv', E, '-append');
     a = E(1,2:3);
-    svm_output = svmclassify(svmStruct,a) %label = 'b' or 'g', for bad or good posture
+    svm_output = svmclassify(svmStruct,a); %label = 'b' or 'g', for bad or good posture
    
-    if svm_output == 0
+    if svm_output
        bad_count = 0;
     else
        bad_count = bad_count + 1;

@@ -38,7 +38,7 @@ fprintf(fid, old_text_string);
 fclose(fid);
 
 old_classif = 'Initialising';
-bad_threshold = 10;
+bad_threshold = 5;
 a = 'running'
 while(1)
     % File Reading 
@@ -73,7 +73,7 @@ while(1)
     E = rotm2eul(R);
 %    dlmwrite ('Adam_back.csv', E, '-append');
     a = E(1,2:3);
-    svm_output = svmclassify(svmStruct,a); %label = 'b' or 'g', for bad or good posture
+    svm_output = svmclassify(svmStruct,a) %label = 'b' or 'g', for bad or good posture
    
     if svm_output
        bad_count = 0;
@@ -97,6 +97,7 @@ while(1)
     text_string = strcat(time,',',classif_string,'\n');
 
 %     if ~strcmp(old_classif,classif_string)
+%         pause(0.5);
         fid = fopen('outData.txt','a');
         fprintf(fid, text_string);
         fclose(fid);
