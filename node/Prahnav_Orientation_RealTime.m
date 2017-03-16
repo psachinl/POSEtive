@@ -2,7 +2,6 @@ function Prahnav_Orientation_RealTime(input_file)
 %-------------------------------------------------------------------------%
 addpath('ximu_matlab_library');	    % include x-IMU MATLAB library
 addpath('quaternion_library');	    % include quatenrion library
-load neural_network.mat
 %-------------------------------------------------------------------------%
 % Variable Initializations
 
@@ -14,7 +13,6 @@ origin = [0,0,0];
 
 % Rotation and Angles Matrix 
 R = zeros(3,3); 
-E = zeros(3,3,1);   
 
 % Gyroscope Threshold
 thresh = 12.5;
@@ -39,6 +37,10 @@ while(1)
     [time,acc,mag,gyr]=splitData(out);      
     input_net = [acc(end,:), gyr(end,:)]';
     clear csv_data
+    
+%     gyr(end,1) = gyr(end,1)-mod(gyr(end,1),thresh);
+%     gyr(end,2) = gyr(end,2)-mod(gyr(end,2),thresh);
+%     gyr(end,3) = gyr(end,3)-mod(gyr(end,3),thresh);
     
     if abs(gyr(end,1)) < thresh
         gyr(end,1) = 0;
@@ -70,14 +72,15 @@ while(1)
     Y = [origin; [uy,vy,wy]]; 
     Z = [origin; [uz,vz,wz]];
     
-    view(3); grid on; 
+    view(3); 
+    grid on; 
     axis([-1,1,-1,1,-1,1]);
-    pause(0.0001);
-   
-    plot3(X(:,1),X(:,2),X(:,3),Y(:,1),Y(:,2),Y(:,3),Z(:,1),Z(:,2),Z(:,3));
+    pause(0.0001)
+    
+    plot3(X(:,1),X(:,2),X(:,3),Y(:,1),Y(:,2),Y(:,3),Z(:,1),Z(:,2),Z(:,3),'LineWidth',3);
        
-    str=sprintf('User Posture = %s', text_string);
-    title(str);
+%     str=sprintf('User Posture = %s', text_string);
+    title('Real Time Orientation of TISensorTag2');
     
 end
 %% End of script
