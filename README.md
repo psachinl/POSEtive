@@ -6,9 +6,19 @@ Coursework
 
 Sachin, Prahnav, Adi, Waris and Adam
 
+Imperial College London
+
 Professor Yiannis Demiris
 
 ----------
+
+
+About
+-------------------
+
+POSEtive is a wearable posture sensor which is designed to be used with a smart device, such as phone or watch, and a downloadable app. The system pushes a reminder notification to the user whenever a slouching threshold is crossed for a certain amount of time. This system is implemented via a trained Support Vector Machine (SVM) which classifies user posture according to pitch (forwards/backwards slouching) and yaw (leaning left or right).
+
+Another effective machine learning method is a neural network, which was trained to respond to raw data inputs straight from the TI Sensortag. While both methods had >80% accuracy, the SVM proved to be more reliable and is hence used in "classification.sh".
 
 Instructions
 -------------------
