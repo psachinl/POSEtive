@@ -1,8 +1,11 @@
 # POSEtive: Posture Correction System
 
 Mobile Healthcare & Machine Learning 2017
+
 Coursework
+
 Sachin, Prahnav, Adi, Waris and Adam
+
 Professor Yiannis Demiris
 
 ----------
